@@ -2,7 +2,7 @@ use axum::{extract, http};
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 
-#[derive(Serialize, Copy)]
+#[derive(Serialize)]
 pub struct Quote {
     id: uuid::Uuid,
     book: String,
@@ -45,11 +45,11 @@ pub async fn create_quote(
         VALUES ($1, $2, $3, $4, $5)
         "#
     )
-    .bind(quote.id)
-    .bind(quote.book)
-    .bind(quote.quote)
-    .bind(quote.inserted_at)
-    .bind(quote.updated_at)
+    .bind(&quote.id)
+    .bind(&quote.book)
+    .bind(&quote.quote)
+    .bind(&quote.inserted_at)
+    .bind(&quote.updated_at)
     .execute(&pool)
     .await;
 
